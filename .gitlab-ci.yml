@@ -12,5 +12,5 @@ build:
     script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"$REGISTRY_ROBOT_ACCOUNT\",\"password\":\"$REGISTRY_TOKEN\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context . --dockerfile Dockerfile --destination harbor.developpement.insee.fr/etgtk6/shiny-app-template:$CI_COMMIT_TAG --skip-tls-verify
+    - /kaniko/executor --context . --dockerfile Dockerfile --destination harbor.developpement.insee.fr/libre-service-statistique/shiny-app-template:$CI_COMMIT_TAG --skip-tls-verify
     # when: manual
