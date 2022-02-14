@@ -1,2 +1,2 @@
-# shiny-app
+# shiny-app-template
 

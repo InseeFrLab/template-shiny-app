@@ -1,0 +1,10 @@
+Package: myshinyapp
+Type: Package
+Title: A simple template to package a Shiny app
+Version: 0.1.0
+Author: InseeFrLab
+Maintainer: InseeFrLab <innovation@insee.fr>
+Description: A template project to encapsulate a Shiny app in a R package.
+License: MIT
+Encoding: UTF-8
+LazyData: true

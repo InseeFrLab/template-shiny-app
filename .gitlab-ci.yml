@@ -1,0 +1,17 @@
+variables:
+    REGISTRY: harbor.developpement.insee.fr
+    GIT_SSL_NO_VERIFY: "1"
+
+build:
+    stage: build
+    tags:
+        - poc-kube
+    image: 
+        name: harbor.developpement.insee.fr/gcr.io/kaniko-project/executor:debug
+        entrypoint: [""]
+    script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context . --dockerfile Dockerfile --destination harbor.developpement.insee.fr/etgtk6/poc-vigec:$CI_COMMIT_TAG --skip-tls-verify
+    # when: manual
+
