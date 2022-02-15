@@ -4,11 +4,13 @@ FROM harbor.developpement.insee.fr/docker.io/rocker/shiny:4.0.5
 # Install required linux librairies
 RUN echo 'Acquire::http::Proxy "http://proxy-rie.http.insee.fr:8080";' >> /etc/apt/apt.conf && \
     apt-get update -y && \
-    apt-get install -y --no-install-recommends libpq-dev
+    apt-get install -y --no-install-recommends libpq-dev \ 
+                                               libssl-dev \
+                                               libxml2-dev
 
 # Install R package and its dependencies
-COPY myshinyapp/ /usr/local/myshinyapp
 RUN Rscript -e "install.packages(c('aws.s3', 'DBI', 'RPostgres', 'glue', 'shiny', 'leaflet'), repos='https://nexus.insee.fr/repository/r-cran/', method = 'wget', extra = '--no-check-certificate')"
+COPY myshinyapp/ /usr/local/myshinyapp
 RUN Rscript -e "install.packages('/usr/local/myshinyapp', repos = NULL, type='source')"
 
 # Expose port where shiny app will broadcast
