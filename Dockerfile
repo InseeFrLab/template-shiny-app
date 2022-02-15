@@ -21,4 +21,4 @@ EXPOSE $SHINY_PORT
 RUN echo "local({options(shiny.port = ${SHINY_PORT}, shiny.host = '0.0.0.0')})" >> /usr/local/lib/R/etc/Rprofile.site
 
 # Endpoint
-CMD ["R", "-e", "myshinyapp::run_app()"]
+CMD ["Rscript", "-e", "myshinyapp::run_app()"]

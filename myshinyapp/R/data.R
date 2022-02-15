@@ -45,3 +45,8 @@ populate_table <- function(bucket, object){
   # Populate table
   dbWriteTable(conn, "quakes", df)
 }
+
+load_data <- function() {
+  to_minio(bucket = "etgtk6", object = "shiny-template/quakes.csv")
+  populate_table(bucket = "etgtk6", object = "shiny-template/quakes.csv")
+}

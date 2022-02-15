@@ -42,4 +42,6 @@ server <- function(input, output) {
   })
 }
 
-shinyApp(ui = ui, server = server)
+run_app <- function() {
+  shiny::runApp(shinyApp(ui, server), display.mode = 'normal')
+}
