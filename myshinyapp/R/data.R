@@ -44,5 +44,4 @@ populate_table <- function(bucket, object){
 
   # Populate table
   dbWriteTable(conn, "quakes", df)
-)
 }
