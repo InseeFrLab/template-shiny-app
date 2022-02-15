@@ -6,7 +6,9 @@ RUN echo 'Acquire::http::Proxy "http://proxy-rie.http.insee.fr:8080";' >> /etc/a
     apt-get update -y && \
     apt-get install -y --no-install-recommends libpq-dev \ 
                                                libssl-dev \
-                                               libxml2-dev
+                                               libxml2-dev \
+                                               gdal-bin \
+                                               libgdal-dev
 
 # Install R package and its dependencies
 RUN Rscript -e "install.packages(c('aws.s3', 'DBI', 'RPostgres', 'glue', 'shiny', 'leaflet'), repos='https://nexus.insee.fr/repository/r-cran/', method = 'wget', extra = '--no-check-certificate')"
