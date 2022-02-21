@@ -6,14 +6,14 @@ RUN echo 'Acquire::http::Proxy "http://proxy-rie.http.insee.fr:8080";' >> /etc/a
     apt-get update -y && \
     apt-get install -y --no-install-recommends libpq-dev \ 
                                                libssl-dev \
-                                               libxml2-dev \
-                                               gdal-bin \
-                                               libgdal-dev
+                                               libxml2-dev
+                                               # gdal-bin \
+                                               # libgdal-dev
 
 # Install R package and its dependencies
-RUN Rscript -e "install.packages(c('aws.s3', 'readr', 'DBI', 'RPostgres', 'glue', 'shiny', 'leaflet', 'pkgload'), repos='https://nexus.insee.fr/repository/r-cran/', method = 'wget', extra = '--no-check-certificate')"
-COPY myshinyapp/ /usr/local/myshinyapp
-RUN Rscript -e "install.packages('/usr/local/myshinyapp', repos = NULL, type='source')"
+RUN Rscript -e "install.packages(c('aws.s3', 'readr', 'DBI', 'RPostgres', 'shiny', 'pkgload'), repos='https://nexus.insee.fr/repository/r-cran/', method = 'wget', extra = '--no-check-certificate')"
+COPY myshinyapp/ ./myshinyapp
+RUN Rscript -e "install.packages('./myshinyapp', repos = NULL, type='source')"
 
 # Expose port where shiny app will broadcast
 ARG SHINY_PORT=3838

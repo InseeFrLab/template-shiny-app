@@ -5,7 +5,7 @@ load_data <- function() {
 }
 
 runApp <- function(){
-    pkgload::load_all(".")
-    myshinyapp::load_data()
+    pkgload::load_all("myshinyapp")
+    # myshinyapp::load_data()
     myshinyapp::myApp()
 }
