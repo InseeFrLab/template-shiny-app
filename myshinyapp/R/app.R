@@ -3,7 +3,9 @@ library(DBI)
 library(glue)
 library(leaflet)
 
-ui <- fluidPage(
+myApp <- function(...) {
+
+  ui <- fluidPage(
   tags$h1("Earthquakes"),
   # Slider to control the minimum magnitude
   sliderInput(inputId = "magSlider", label = "Minimum magnitude:", min = 0, max = 10, value = 0, step = 0.1),
@@ -40,8 +42,8 @@ server <- function(input, output) {
       addMarkers(~longitude, ~latitude, label = ~richter) %>%
       addProviderTiles(providers$Esri.WorldStreetMap)
   })
-}
 
-run_app <- function() {
-  shiny::runApp(shinyApp(ui, server), display.mode = 'normal')
+  shinyApp(ui, server, ...)
+
+  }
 }

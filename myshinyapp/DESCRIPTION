@@ -8,5 +8,3 @@ Description: A template project to encapsulate a Shiny app in a R package.
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports:
-    
