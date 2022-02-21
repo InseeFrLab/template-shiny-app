@@ -1,7 +1,7 @@
 library(shiny)
 library(DBI)
-# library(glue)
-# library(leaflet)
+library(glue)
+library(leaflet)
 
 myApp <- function(...) {
 
@@ -10,7 +10,7 @@ myApp <- function(...) {
   # Slider to control the minimum magnitude
   sliderInput(inputId = "magSlider", label = "Minimum magnitude:", min = 0, max = 10, value = 0, step = 0.1),
   # Map output
-  # leafletOutput(outputId = "map")
+  leafletOutput(outputId = "map")
 )
 
 server <- function(input, output) {
@@ -35,7 +35,13 @@ server <- function(input, output) {
     dbDisconnect(conn)
   })
 
-  print(data)
+  # Render map
+  output$map <- renderLeaflet({
+    leaflet(data = data()) %>%
+      addTiles() %>%
+      addMarkers(~longitude, ~latitude, label = ~richter) %>%
+      addProviderTiles(providers$Esri.WorldStreetMap)
+  })
 
   shinyApp(ui, server, ...)
 
