@@ -5,7 +5,7 @@ load_data <- function() {
 }
 
 runApp <- function(){
-  # myshinyapp::load_data()
+  myshinyapp::load_data()
   appDir <- system.file("app", package = "myshinyapp")
   shiny::runApp(appDir, display.mode = "normal")
 }

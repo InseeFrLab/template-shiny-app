@@ -11,6 +11,15 @@ to_minio <- function(bucket, object){
 }
 
 populate_table <- function(bucket, object){
+  
+  # Get data from MinIO
+  df <- aws.s3::s3read_using(
+    FUN = readr::read_csv,
+    object = object,
+    bucket = bucket,
+    opts = list("region" = "")
+  )
+
   # Connect to the postgresql db
   conn <- DBI::dbConnect(
     RPostgres::Postgres(),
@@ -21,28 +30,8 @@ populate_table <- function(bucket, object){
     password = Sys.getenv("POSTGRESQL_DB_PASSWORD")
   )
 
-  # Create empty table 
-  create_query <- "
-  CREATE TABLE quakes (
-    id INT PRIMARY KEY,
-    latitude REAL,
-    longitude REAL,
-    depth REAL,
-    richter REAL,
-    stations INT
-  );"
-  DBI::dbSendQuery(conn, create_query)
-
-  # Get data from MinIO
-  df <- aws.s3::s3read_using(
-    FUN = readr::read_csv,
-    object = object,
-    bucket = bucket,
-    opts = list("region" = "")
-  )
-
   # Populate table
-  DBI::dbWriteTable(conn, "quakes", df)
+  DBI::dbWriteTable(conn, "quakes", df, overwrite = True)
 
   # Close DB connection
   DBI::dbDisconnect(conn)
