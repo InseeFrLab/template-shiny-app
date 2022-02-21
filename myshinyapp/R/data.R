@@ -1,4 +1,3 @@
-library(DBI)
 
 to_minio <- function(bucket, object){
   # Export built-in R dataframe "quakes" to MinIO
@@ -13,7 +12,7 @@ to_minio <- function(bucket, object){
 
 populate_table <- function(bucket, object){
   # Connect to the postgresql db
-  conn <- dbConnect(
+  conn <- DBI::dbConnect(
     RPostgres::Postgres(),
     dbname = Sys.getenv("POSTGRESQL_DB_NAME"),
     host = Sys.getenv("POSTGRESQL_DB_HOST"),
@@ -32,7 +31,7 @@ populate_table <- function(bucket, object){
     richter REAL,
     stations INT
   );"
-  dbSendQuery(conn, create_query)
+  DBI::dbSendQuery(conn, create_query)
 
   # Get data from MinIO
   df <- aws.s3::s3read_using(
@@ -43,5 +42,8 @@ populate_table <- function(bucket, object){
   )
 
   # Populate table
-  dbWriteTable(conn, "quakes", df)
+  DBI::dbWriteTable(conn, "quakes", df)
+
+  # Close DB connection
+  DBI::dbDisconnect(conn)
 }
