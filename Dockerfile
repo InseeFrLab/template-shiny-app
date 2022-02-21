@@ -6,7 +6,7 @@ RUN echo 'Acquire::http::Proxy "http://proxy-rie.http.insee.fr:8080";' >> /etc/a
     apt-get update -y && \
     apt-get install -y --no-install-recommends libpq-dev \ 
                                                libssl-dev \
-                                               libxml2-dev \
+                                               libxml2-dev
                                                # gdal-bin \
                                                # libgdal-dev
 
