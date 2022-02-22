@@ -31,7 +31,7 @@ populate_table <- function(bucket, object){
   )
 
   # Populate table
-  DBI::dbWriteTable(conn, "quakes", df, overwrite = True)
+  DBI::dbWriteTable(conn, "quakes", df, overwrite = TRUE)
 
   # Close DB connection
   DBI::dbDisconnect(conn)
