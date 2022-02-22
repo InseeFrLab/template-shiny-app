@@ -15,8 +15,6 @@ RUN Rscript -e "install.packages(c('aws.s3', 'readr', 'DBI', 'RPostgres', 'glue'
 COPY myshinyapp/ ./myshinyapp
 RUN Rscript -e "install.packages('./myshinyapp', repos = NULL, type='source')"
 
-RUN echo "cache test"
-
 # Expose port where shiny app will broadcast
 ARG SHINY_PORT=3838
 EXPOSE $SHINY_PORT

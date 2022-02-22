@@ -24,9 +24,9 @@ server <- function(input, output) {
   # Render map
   output$map <- leaflet::renderLeaflet({
     mymap <- leaflet::leaflet(data = data())
-    mymap <- leaflet::addTiles()
-    mymap <- leaflet::addMarkers(~longitude, ~latitude, label = ~richter)
-    mymap <- leaflet::addProviderTiles(providers$Esri.WorldStreetMap)
+    mymap <- leaflet::addTiles(mymap)
+    mymap <- leaflet::addMarkers(mymap, ~longitude, ~latitude, label = ~richter)
+    mymap <- leaflet::addProviderTiles(mymap, providers$Esri.WorldStreetMap)
   })
 
 }
