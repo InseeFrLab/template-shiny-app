@@ -3,7 +3,7 @@ server <- function(input, output) {
 
   data <- reactive({
     # Connect to the DB
-    con <- DBI::dbConnect(
+    conn <- DBI::dbConnect(
     RPostgres::Postgres(),
     dbname = Sys.getenv("POSTGRESQL_DB_NAME"),
     host = Sys.getenv("POSTGRESQL_DB_HOST"),
