@@ -24,7 +24,7 @@ server <- function(input, output) {
     if (nrow(quakes) > 0) {
       new_map <- leaflet::leafletProxy("map")
       new_map <- leaflet::addTiles(new_map)
-      new_map <- leaflet::addMarkers(new_map, ~long, ~lat, label = ~mag)
+      new_map <- leaflet::addMarkers(new_map, data = quakes, lng = ~long, lat = ~lat, label = ~mag)
       new_map <- leaflet::addProviderTiles(new_map, leaflet::providers$Esri.WorldStreetMap)
     }
     
