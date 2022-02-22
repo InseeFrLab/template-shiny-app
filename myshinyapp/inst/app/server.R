@@ -14,11 +14,12 @@ server <- function(input, output) {
 
     # Get the data
     quakes <- DBI::dbGetQuery(conn, glue::glue("SELECT * FROM quakes WHERE mag >= {input$magSlider}"))
-    # Convert to data.frame
-    data.frame(quakes)
-
+    
     # Disconnect from the DB
     DBI::dbDisconnect(conn)
+    
+    # Convert to data.frame
+    data.frame(quakes)
   })
 
   # Render map
