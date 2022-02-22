@@ -1,7 +1,11 @@
 
 server <- function(input, output) {
 
-  data <- reactive({
+  output$map <- leaflet::renderLeaflet({
+    leaflet::leaflet()
+  })
+
+  observeEvent(input$magSlider, {
     # Connect to the DB
     conn <- DBI::dbConnect(
     RPostgres::Postgres(),
@@ -14,20 +18,18 @@ server <- function(input, output) {
 
     # Get the data
     quakes <- DBI::dbGetQuery(conn, glue::glue("SELECT * FROM quakes WHERE mag >= {input$magSlider}"))
+    quakes <- data.frame(quakes)
+
+    # Update map
+    if (nrow(quakes) > 0) {
+      new_map <- leaflet::leafletProxy("map")
+      new_map <- leaflet::addTiles(mymap)
+      new_map <- leaflet::addMarkers(new_map, ~long, ~lat, label = ~mag)
+      new_map <- leaflet::addProviderTiles(mymap, leaflet::providers$Esri.WorldStreetMap)
+    }
     
     # Disconnect from the DB
     DBI::dbDisconnect(conn)
-    
-    # Convert to data.frame
-    data.frame(quakes)
-  })
-
-  # Render map
-  output$map <- leaflet::renderLeaflet({
-    mymap <- leaflet::leaflet(data = data())
-    mymap <- leaflet::addTiles(mymap)
-    mymap <- leaflet::addMarkers(mymap, ~long, ~lat, label = ~mag)
-    mymap <- leaflet::addProviderTiles(mymap, leaflet::providers$Esri.WorldStreetMap)
   })
 
 }
