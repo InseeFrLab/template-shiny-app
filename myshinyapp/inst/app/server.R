@@ -23,9 +23,9 @@ server <- function(input, output) {
     # Update map
     if (nrow(quakes) > 0) {
       new_map <- leaflet::leafletProxy("map")
-      new_map <- leaflet::addTiles(mymap)
+      new_map <- leaflet::addTiles(new_map)
       new_map <- leaflet::addMarkers(new_map, ~long, ~lat, label = ~mag)
-      new_map <- leaflet::addProviderTiles(mymap, leaflet::providers$Esri.WorldStreetMap)
+      new_map <- leaflet::addProviderTiles(new_map, leaflet::providers$Esri.WorldStreetMap)
     }
     
     # Disconnect from the DB
