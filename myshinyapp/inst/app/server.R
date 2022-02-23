@@ -26,11 +26,14 @@ server <- function(input, output) {
   output$map <- leaflet::renderLeaflet({
     mymap <- leaflet::leaflet(data = data())
     mymap <- leaflet::addTiles(mymap)
+    mymap <- leaflet::addMarkers(mymap, ~long, ~lat, label = ~mag)
     mymap <- leaflet::addProviderTiles(mymap, leaflet::providers$Esri.WorldStreetMap)
   })
 
+  # Update markers
   observe({
-    proxy <- leaflet::leafletProxy("map", data=data())
+    proxy <- leaflet::leafletProxy("map")
+    proxy <- leaflet::clearMarkers(proxy)
     proxy <- leaflet::addMarkers(proxy, ~long, ~lat, label = ~mag)
   })
 
