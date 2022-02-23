@@ -38,5 +38,4 @@ server <- function(input, output) {
     proxy <- leaflet::addMarkers(proxy, data=data(), ~long, ~lat, label = ~mag)  
     }
     })
-  
 }
