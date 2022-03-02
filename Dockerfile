@@ -1,9 +1,8 @@
 # Base image
-FROM harbor.developpement.insee.fr/docker.io/rocker/shiny:4.0.5
+FROM rocker/shiny:4.1.2
 
 # Install required linux librairies
-RUN echo 'Acquire::http::Proxy "http://proxy-rie.http.insee.fr:8080";' >> /etc/apt/apt.conf && \
-    apt-get update -y && \
+RUN apt-get update -y && \
     apt-get install -y --no-install-recommends libpq-dev \ 
                                                libssl-dev \
                                                libxml2-dev \
@@ -11,10 +10,10 @@ RUN echo 'Acquire::http::Proxy "http://proxy-rie.http.insee.fr:8080";' >> /etc/a
                                                libgdal-dev
 
 # Install R package and its dependencies
-RUN Rscript -e "install.packages(c('remotes'), repos='https://nexus.insee.fr/repository/r-cran/', method = 'wget', extra = '--no-check-certificate')"
-COPY myshinyapp/ ./myshinyapp
-RUN Rscript -e "remotes::install_deps('./myshinyapp', repos='https://nexus.insee.fr/repository/r-cran/', method = 'wget', extra = '--no-check-certificate')"
-RUN Rscript -e "install.packages('./myshinyapp', repos = NULL, type='source')"
+RUN install2.r remotes
+COPY myshinyapp/DESCRIPTION .
+RUN Rscript -e 'remotes::install_deps(".")'
+RUN Rscript -e 'remotes::install_github("InseeFrLab/template-shiny-app")'
 
 # Expose port where shiny app will broadcast
 ARG SHINY_PORT=3838
