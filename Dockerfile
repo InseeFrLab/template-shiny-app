@@ -11,9 +11,9 @@ RUN apt-get update -y && \
 
 # Install R package and its dependencies
 RUN install2.r remotes
-COPY myshinyapp/DESCRIPTION .
-RUN Rscript -e 'remotes::install_deps(".")'
-RUN Rscript -e 'remotes::install_github("InseeFrLab/template-shiny-app")'
+COPY myshinyapp/ ./myshinyapp
+RUN Rscript -e 'remotes::install_deps("./myshinyapp")'
+RUN Rscript -e 'install.packages("./myshinyapp", repos = NULL, type="source")'
 
 # Expose port where shiny app will broadcast
 ARG SHINY_PORT=3838
